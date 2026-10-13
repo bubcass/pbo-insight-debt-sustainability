@@ -34,7 +34,7 @@ function delta(value, unit) {
 function metricSeries(baseline, controls, config, model) {
   const start = model.years.indexOf(controls.changeStart);
   const end = Math.max(start, model.years.indexOf(controls.changeEnd));
-  const pressure = controls.primarySpending * 0.45 - controls.revenue * 0.45 - controls.realGrowth * 0.55 + controls.inflation * 0.18 + controls.interestRate * 0.48;
+  const pressure = (controls.primarySpending / 100) * 2.7 - (controls.revenue / 100) * 2.7 - (controls.realGrowth / 100) * 3.3 + (controls.inflation / 100) * 1.08 + (controls.interestRate / 100) * 2.88;
   return baseline.map((value, index) => {
     if (index < start) return value;
     const progress = Math.min(1, (index - start + 1) / (end - start + 1));
@@ -96,7 +96,7 @@ function dynamicsRows(model, controls = {}) {
   const end = Math.max(start, model.years.indexOf(controls.changeEnd ?? model.years.at(-1)));
   return model.years.map((year, index) => {
     const progress = index < start ? 0 : Math.min(1, (index - start + 1) / (end - start + 1));
-    const parts = {"Interest spending": 0.85 + Math.min(index, 8) * 0.06 + (controls.interestRate || 0) * 0.25 * progress, "Stock-flow adjustment": index < 5 ? 1.5 + index * 0.35 : 1.25, "Primary balance": -2.35 - Math.min(index, 5) * 0.04 + ((controls.primarySpending || 0) - (controls.revenue || 0)) * 0.24 * progress, Inflation: -1.45 + Math.min(index, 7) * 0.03 - (controls.inflation || 0) * 0.14 * progress, "Real growth": -2.55 + Math.min(index, 6) * 0.12 - (controls.realGrowth || 0) * 0.32 * progress};
+    const parts = {"Interest spending": 0.85 + Math.min(index, 8) * 0.06 + ((controls.interestRate || 0) / 100) * 1.5 * progress, "Stock-flow adjustment": index < 5 ? 1.5 + index * 0.35 : 1.25, "Primary balance": -2.35 - Math.min(index, 5) * 0.04 + (((controls.primarySpending || 0) - (controls.revenue || 0)) / 100) * 1.44 * progress, Inflation: -1.45 + Math.min(index, 7) * 0.03 - ((controls.inflation || 0) / 100) * 0.84 * progress, "Real growth": -2.55 + Math.min(index, 6) * 0.12 - ((controls.realGrowth || 0) / 100) * 1.92 * progress};
     return {year, parts, net: +Object.values(parts).reduce((sum, value) => sum + value, 0).toFixed(1)};
   });
 }
@@ -143,7 +143,7 @@ export function createDebtAnalysisExplorer(model, metricId) {
   };
   const setControl = (name, value) => { controls[name] = value; if (name === "changeStart" && value > controls.changeEnd) controls.changeEnd = value; if (name === "changeEnd" && value < controls.changeStart) controls.changeStart = value; preset = "custom"; update(); };
   const reset = () => { Object.assign(controls, defaultScenario(model)); preset = "baseline"; update(); };
-  const selectPreset = (next) => { if (next === "baseline") return reset(); if (next === "adverse") Object.assign(controls, {primarySpending: 0.6, revenue: -0.4, realGrowth: -1.2, inflation: 0.4, interestRate: 0.8}); preset = next; update(); };
+  const selectPreset = (next) => { if (next === "baseline") return reset(); if (next === "adverse") Object.assign(controls, {primarySpending: 20, revenue: -15, realGrowth: -20, inflation: 10, interestRate: 15}); preset = next; update(); };
   setup = debtScenarioSetup(model, {onChange: setControl});
   fineTuning = debtFineTuning({onChange: setControl});
   summary = summaryComponent(model, config);

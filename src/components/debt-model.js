@@ -1,9 +1,12 @@
+// Input controls represent relative deviations from the baseline path. These
+// placeholder elasticities translate those shares into debt-ratio points until
+// the approved model supplies its own scenario outputs.
 const sensitivityWeights = {
-  primarySpending: 0.7,
-  revenue: -0.7,
-  realGrowth: -0.95,
-  inflation: -0.3,
-  interestRate: 0.85
+  primarySpending: 6,
+  revenue: -6,
+  realGrowth: -8,
+  inflation: -2.5,
+  interestRate: 7
 };
 
 export function scenarioSeries(model, controls) {
@@ -13,7 +16,7 @@ export function scenarioSeries(model, controls) {
   const scenarioStartIndex = model.years.indexOf(scenarioStart);
   const scenarioEndIndex = Math.max(scenarioStartIndex, model.years.indexOf(scenarioEnd));
   const combinedShift = Object.entries(sensitivityWeights)
-    .reduce((sum, [name, weight]) => sum + (Number(controls[name]) || 0) * weight, 0);
+    .reduce((sum, [name, weight]) => sum + ((Number(controls[name]) || 0) / 100) * weight, 0);
 
   // Illustrative layout adapter only. Replace with model-supplied scenario output.
   return baseline.map((value, index) => {

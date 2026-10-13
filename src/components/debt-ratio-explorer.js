@@ -63,7 +63,7 @@ export function createDebtRatioExplorer(model) {
   const selectPreset = (nextPreset) => {
     if (nextPreset === "baseline") return resetToBaseline();
     if (nextPreset === "adverse") {
-      Object.assign(controls, {primarySpending: 0.6, revenue: -0.4, realGrowth: -1.2, inflation: 0.4, interestRate: 0.8});
+      Object.assign(controls, {primarySpending: 20, revenue: -15, realGrowth: -20, inflation: 10, interestRate: 15});
     }
     preset = nextPreset;
     update();

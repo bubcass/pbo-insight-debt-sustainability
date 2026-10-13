@@ -16,10 +16,10 @@
   },
   "assumptions": {
     "denominator": ["GNI*", "GDP"],
-    "primarySpending": {"label": "Primary spending", "min": -3, "max": 3, "baseline": 0, "unit": "pp"},
-    "revenue": {"label": "Revenue", "min": -3, "max": 3, "baseline": 0, "unit": "pp"},
-    "realGrowth": {"label": "Real growth", "min": -3, "max": 3, "baseline": 0, "unit": "pp"},
-    "inflation": {"label": "Inflation", "min": -3, "max": 3, "baseline": 0, "unit": "pp"},
-    "interestRate": {"label": "Interest rate", "min": -3, "max": 3, "baseline": 0, "unit": "pp"}
+    "primarySpending": {"label": "Primary spending", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
+    "revenue": {"label": "Revenue", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
+    "realGrowth": {"label": "Real growth", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
+    "inflation": {"label": "Inflation", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
+    "interestRate": {"label": "Interest rate", "min": -50, "max": 50, "baseline": 0, "unit": "%"}
   }
 }

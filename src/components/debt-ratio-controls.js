@@ -1,8 +1,8 @@
 function sliderMarkup(id, label) {
   return `<label class="debt-control" for="${id}">
-    <span>${label}</span><output>0.0 pp</output>
-    <input id="${id}" type="range" min="-3" max="3" step="0.1" value="0">
-    <small>−3 pp <i></i> +3 pp</small>
+    <span>${label}</span><output>0%</output>
+    <input id="${id}" type="range" min="-50" max="50" step="1" value="0">
+    <small>−50% <i></i> +50%</small>
   </label>`;
 }
 
@@ -11,7 +11,7 @@ function option(name, value, label) {
 }
 
 function signed(value) {
-  return `${value > 0 ? "+" : ""}${Number(value).toFixed(1)} pp`;
+  return `${value > 0 ? "+" : ""}${Number(value).toFixed(0)}%`;
 }
 
 /** High-level scenario treatments, kept independently mountable in page flow. */
@@ -58,11 +58,11 @@ export function debtFineTuning({onChange}) {
   element.className = "debt-workspace debt-fine-tuning debt-ratio-section";
   element.setAttribute("aria-labelledby", "fine-tune-title");
   element.innerHTML = `<div class="debt-controls-heading debt-fine-tuning__heading">
-    <div><h2 id="fine-tune-title">Fine-tune the model</h2><p>Adjust the detailed fiscal, economic and financing assumptions, taking in variables like spending, revenue, growth and inflation.</p></div>
+    <div><h2 id="fine-tune-title">Fine-tune the model</h2><p>Adjust the detailed fiscal, economic and financing assumptions as relative changes from their baseline paths.</p></div>
   </div>
   <div class="debt-fine-tuning__grid">
-    <section class="debt-assumptions__group"><h3>Fiscal assumptions</h3><p class="debt-step-description">Test how changes in spending and revenue affect the primary balance.</p>${sliderMarkup("primarySpending", "Primary spending")}${sliderMarkup("revenue", "Revenue")}<div class="debt-derived-metric"><span>Net primary-balance effect</span><strong data-primary-balance-effect>0.0 pp</strong><small>Revenue less primary spending</small></div></section>
-    <section class="debt-assumptions__group"><h3>Economy and financing</h3><p class="debt-step-description">Test how growth, inflation and interest rates alter the medium-term debt path.</p>${sliderMarkup("realGrowth", "Real growth")}${sliderMarkup("inflation", "Inflation")}${sliderMarkup("interestRate", "Interest rate")}</section>
+    <section class="debt-assumptions__group"><h3>Fiscal assumptions</h3><p class="debt-step-description">Test relative changes in spending and revenue against their baseline paths.</p>${sliderMarkup("primarySpending", "Primary spending")}${sliderMarkup("revenue", "Revenue")}<div class="debt-derived-metric"><span>Net fiscal input</span><strong data-primary-balance-effect>0%</strong><small>Revenue less primary spending</small></div></section>
+    <section class="debt-assumptions__group"><h3>Economy and financing</h3><p class="debt-step-description">Test relative changes in growth, inflation and interest rates against their baseline paths.</p>${sliderMarkup("realGrowth", "Real growth")}${sliderMarkup("inflation", "Inflation")}${sliderMarkup("interestRate", "Interest rate")}</section>
   </div>`;
 
   for (const name of ["primarySpending", "revenue", "realGrowth", "inflation", "interestRate"]) {
