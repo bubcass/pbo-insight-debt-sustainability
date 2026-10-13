@@ -34,9 +34,9 @@ display(debtSectionNav("debt-ratio"));
 </div>
 
 ~~~js
-display(debtRatio.scenarioSetup);
 display(debtRatio.atAGlance);
 display(debtRatio.chart);
+display(debtRatio.scenarioSetup);
 display(debtRatio.fineTuning);
 display(debtRatio.resetControl);
 ~~~
