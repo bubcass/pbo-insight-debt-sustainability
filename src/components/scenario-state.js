@@ -1,8 +1,10 @@
-const storageKey = "pbo-debt-sustainability-scenario-v1";
+const storageKey = "pbo-debt-sustainability-scenario-v2";
 const fields = ["primarySpending", "revenue", "realGrowth", "inflation", "interestRate", "changeStart", "changeEnd", "denominator", "windfall"];
 
 export function defaultScenario(model) {
-  return {primarySpending: 0, revenue: 0, realGrowth: 0, inflation: 0, interestRate: 0, changeStart: model.metadata.scenarioStart, changeEnd: model.years.at(-1), denominator: "gni-star", windfall: "include"};
+  // A null rate means retain the illustrative baseline path rather than
+  // imposing one constant rate over the selected period.
+  return {primarySpending: 0, revenue: 0, realGrowth: null, inflation: null, interestRate: null, changeStart: model.metadata.scenarioStart, changeEnd: model.years.at(-1), denominator: "gni-star", windfall: "include"};
 }
 
 export function readScenario(model) {

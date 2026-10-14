@@ -14,12 +14,17 @@
     "governmentBalance": [-2.9, -2.7, -2.7, -2.7, -2.8, -2.9, -2.8, -2.8, -2.7, -2.7, -2.6, -2.7, -2.6, -2.6],
     "governmentDebt": [358, 362, 367, 373, 379, 384, 389, 394, 399, 404, 409, 415, 421, 427]
   },
+  "ratePaths": {
+    "realGrowth": [2.2, 2.4, 2.1, 2.0, 1.9, 1.8, 1.8, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7],
+    "inflation": [2.4, 2.2, 2.1, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+    "interestRate": [2.1, 2.2, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.0, 3.1, 3.1, 3.2, 3.2]
+  },
   "assumptions": {
     "denominator": ["GNI*", "GDP"],
     "primarySpending": {"label": "Primary spending", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
     "revenue": {"label": "Revenue", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
-    "realGrowth": {"label": "Real growth", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
-    "inflation": {"label": "Inflation", "min": -50, "max": 50, "baseline": 0, "unit": "%"},
-    "interestRate": {"label": "Interest rate", "min": -50, "max": 50, "baseline": 0, "unit": "%"}
+    "realGrowth": {"label": "Annual real growth", "min": -5, "max": 8, "step": 0.1, "unit": "%"},
+    "inflation": {"label": "Annual inflation", "min": 0, "max": 10, "step": 0.1, "unit": "%"},
+    "interestRate": {"label": "Effective interest rate", "min": 0, "max": 10, "step": 0.1, "unit": "%"}
   }
 }

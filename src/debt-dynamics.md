@@ -11,6 +11,7 @@ import {debtHero} from "./components/debt-page.js";
 import {debtSectionNav} from "./components/debt-section-nav.js";
 import {createDebtAnalysisExplorer, metricDownloadRows} from "./components/debt-analysis.js";
 import {downloadButton} from "./components/download-button.js";
+import {debtScenarioExplainer} from "./components/debt-scenario-explainer.js";
 const model = await FileAttachment("data/model-baseline.json").json();
 const video = await FileAttachment("media/budget.mp4").url();
 const explorer = createDebtAnalysisExplorer(model, "debt-dynamics");
@@ -21,9 +22,10 @@ display(debtSectionNav("debt-dynamics"));
 <div class="prose-block lead debt-analysis-introduction"><p>Debt dynamics break the annual change in the debt ratio into the effects of interest spending, primary balances, real growth, inflation and stock-flow adjustments.</p></div>
 
 ~~~js
-display(explorer.scenarioSetup);
 display(explorer.atAGlance);
 display(explorer.chart);
+display(debtScenarioExplainer());
+display(explorer.scenarioSetup);
 display(explorer.fineTuning);
 display(explorer.resetControl);
 ~~~

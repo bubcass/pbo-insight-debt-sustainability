@@ -11,6 +11,7 @@ import {debtHero} from "./components/debt-page.js";
 import {debtSectionNav} from "./components/debt-section-nav.js";
 import {createDebtAnalysisExplorer, metricDownloadRows} from "./components/debt-analysis.js";
 import {downloadButton} from "./components/download-button.js";
+import {debtScenarioExplainer} from "./components/debt-scenario-explainer.js";
 const model = await FileAttachment("data/model-baseline.json").json();
 const video = await FileAttachment("media/budget.mp4").url();
 const explorer = createDebtAnalysisExplorer(model, "interest-spending");
@@ -21,9 +22,10 @@ display(debtSectionNav("interest-spending"));
 <div class="prose-block lead debt-analysis-introduction"><p>Interest spending is driven by the debt stock and the interest-rate assumptions applied to new and refinancing debt. Compare the published baseline with an illustrative scenario view below.</p></div>
 
 ~~~js
-display(explorer.scenarioSetup);
 display(explorer.atAGlance);
 display(explorer.chart);
+display(debtScenarioExplainer());
+display(explorer.scenarioSetup);
 display(explorer.fineTuning);
 display(explorer.resetControl);
 ~~~

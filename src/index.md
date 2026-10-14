@@ -11,6 +11,7 @@ import {debtHero} from "./components/debt-page.js";
 import {createDebtRatioExplorer} from "./components/debt-ratio-explorer.js";
 import {debtSectionNav} from "./components/debt-section-nav.js";
 import {downloadButton} from "./components/download-button.js";
+import {debtScenarioExplainer} from "./components/debt-scenario-explainer.js";
 
 const model = await FileAttachment("data/model-baseline.json").json();
 const heroVideo = await FileAttachment("media/budget.mp4").url();
@@ -36,6 +37,7 @@ display(debtSectionNav("debt-ratio"));
 ~~~js
 display(debtRatio.atAGlance);
 display(debtRatio.chart);
+display(debtScenarioExplainer());
 display(debtRatio.scenarioSetup);
 display(debtRatio.fineTuning);
 display(debtRatio.resetControl);

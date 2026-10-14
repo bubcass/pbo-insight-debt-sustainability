@@ -41,7 +41,8 @@ export function createDebtRatioExplorer(model) {
       scenarioStart: controls.changeStart,
       denominatorLabel,
       preset,
-      comparison: comparisonText(model, series)
+      comparison: comparisonText(model, series),
+      controls
     });
     resetControl.update(isBaseline(model, controls));
   };
@@ -63,16 +64,16 @@ export function createDebtRatioExplorer(model) {
   const selectPreset = (nextPreset) => {
     if (nextPreset === "baseline") return resetToBaseline();
     if (nextPreset === "adverse") {
-      Object.assign(controls, {primarySpending: 20, revenue: -15, realGrowth: -20, inflation: 10, interestRate: 15});
+      Object.assign(controls, {primarySpending: 20, revenue: -15, realGrowth: 0.5, inflation: 4.0, interestRate: 4.5});
     }
     preset = nextPreset;
     update();
   };
 
   setup = debtScenarioSetup(model, {onChange: setControl});
-  fineTuning = debtFineTuning({onChange: setControl});
+  fineTuning = debtFineTuning(model, {onChange: setControl});
   summary = debtRatioSummary(model);
-  chart = debtRatioChartPanel(model, {onPreset: selectPreset});
+  chart = debtRatioChartPanel(model, {onPreset: selectPreset, onChange: setControl});
   resetControl = debtResetButton({onReset: resetToBaseline});
   update();
 

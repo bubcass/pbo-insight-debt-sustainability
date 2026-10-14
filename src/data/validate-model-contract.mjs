@@ -10,6 +10,12 @@ for (const name of requiredSeries) {
     throw new Error(`baseline.${name} must be a numeric array matching years`);
   }
 }
+for (const name of ["realGrowth", "inflation", "interestRate"]) {
+  const values = input.ratePaths?.[name];
+  if (!Array.isArray(values) || values.length !== input.years.length || values.some((value) => !Number.isFinite(value))) {
+    throw new Error(`ratePaths.${name} must be a numeric array matching years`);
+  }
+}
 if (!Number.isInteger(input.metadata?.scenarioStart) || !input.years.includes(input.metadata.scenarioStart)) {
   throw new Error("metadata.scenarioStart must be one of the projection years");
 }
