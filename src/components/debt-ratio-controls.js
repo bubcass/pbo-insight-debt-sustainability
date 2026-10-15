@@ -48,6 +48,22 @@ function quickRateMarkup(model, id) {
   </label>`;
 }
 
+function accordionHeading(id, title, description) {
+  return `<summary class="debt-scenario-accordion__summary"><span><h3 id="${id}">${title}</h3><p>${description}</p></span><span class="debt-scenario-accordion__icon" aria-hidden="true"></span></summary>`;
+}
+
+function keepOneScenarioStageOpen(element) {
+  const stages = [...element.querySelectorAll("details.debt-scenario-accordion__stage")];
+  for (const stage of stages) {
+    stage.addEventListener("toggle", () => {
+      if (!stage.open) return;
+      for (const otherStage of document.querySelectorAll("details.debt-scenario-accordion__stage")) {
+        if (otherStage !== stage) otherStage.open = false;
+      }
+    });
+  }
+}
+
 /** Compact scenario controls that let readers adjust the chart without leaving it. */
 export function debtChartQuickControls(model, {onChange}) {
   const element = document.createElement("section");
@@ -92,11 +108,10 @@ export function debtChartQuickControls(model, {onChange}) {
 /** High-level scenario treatments, kept independently mountable in page flow. */
 export function debtScenarioSetup(model, {onChange}) {
   const element = document.createElement("section");
-  element.className = "debt-workspace debt-ratio-section debt-ratio-section--setup";
-  element.innerHTML = `<aside class="debt-workspace__controls">
-    <div class="debt-controls-heading">
-      <div><h3>1. Start with a baseline</h3><p>The type of debt ratio denominator and whether to include windfall corporation taxes may have significant effects on model projections.</div>
-    </div>
+  element.className = "debt-workspace debt-ratio-section debt-ratio-section--setup debt-scenario-accordion";
+  element.innerHTML = `<details class="debt-scenario-accordion__stage" open>
+    ${accordionHeading("baseline-stage-title", "1. Start with a baseline", "Choose the debt ratio denominator, windfall corporation tax treatment and period in which changes apply.")}
+    <div class="debt-scenario-accordion__content">
     <form class="debt-assumptions">
       <section class="debt-assumptions__group debt-scenario-setup">
         <div class="debt-choice"><span>Debt ratio denominator</span><div class="segmented-control" role="radiogroup" aria-label="Debt ratio denominator">${option("denominator", "gni-star", "GNI*")}${option("denominator", "gdp", "GDP")}</div></div>
@@ -104,14 +119,16 @@ export function debtScenarioSetup(model, {onChange}) {
         <div class="debt-timing"><span>Period of change <output data-period-summary></output></span><div class="debt-timing__track"><input id="changeStart" aria-label="Start year for changes" type="range" min="${model.metadata.scenarioStart}" max="${model.years.at(-1)}" step="1"><input id="changeEnd" aria-label="End year for changes" type="range" min="${model.metadata.scenarioStart}" max="${model.years.at(-1)}" step="1"></div><small><span>Start <output data-change-start></output></span><span>End <output data-change-end></output></span></small></div>
       </section>
     </form>
-    <div><p></p><p>GNI* gives a clearer view of the domestic economy by excluding multinational-related distortions, whereas GDP is a broader measure of economic activity more affected by those flows.</p><p>Including windfall corporation tax receipts supports the projected fiscal position and can lower the debt ratio. Excluding the receipts tests a more cautious scenario.</p></p></div>
-  </aside>`;
+    <div class="debt-scenario-accordion__note"><p>GNI* gives a clearer view of the domestic economy by excluding multinational-related distortions, whereas GDP is a broader measure of economic activity more affected by those flows.</p><p>Including windfall corporation tax receipts supports the projected fiscal position and can lower the debt ratio. Excluding the receipts tests a more cautious scenario.</p></div>
+    </div>
+  </details>`;
 
   element.querySelector("#changeStart").addEventListener("input", (event) => onChange("changeStart", Number(event.target.value)));
   element.querySelector("#changeEnd").addEventListener("input", (event) => onChange("changeEnd", Number(event.target.value)));
   element.querySelectorAll('input[name="denominator"], input[name="windfall"]').forEach((input) => {
     input.addEventListener("change", () => onChange(input.name, input.value));
   });
+  keepOneScenarioStageOpen(element);
 
   return {
     element,
@@ -130,23 +147,17 @@ export function debtScenarioSetup(model, {onChange}) {
 /** Detailed fiscal, economic and financing controls. */
 export function debtFineTuning(model, {onChange}) {
   const element = document.createElement("section");
-  element.className = "debt-workspace debt-fine-tuning debt-ratio-section";
-  element.setAttribute("aria-labelledby", "fine-tune-title");
-  element.innerHTML = `<div class="debt-controls-heading debt-fine-tuning__heading">
-    <div><h3 id="fine-tune-title">2. Fine-tune the fiscal assumptions</h3><p>Test relative changes in spending and revenue against their baseline paths.</p></div>
-  </div>
-  <div class="debt-fine-tuning__grid">
-    <section class="debt-assumptions__group debt-fine-tuning__panel">
-      <div class="debt-fine-tuning__section">${sliderMarkup("primarySpending", "Primary spending")}${sliderMarkup("revenue", "Revenue")}<div class="debt-derived-metric"><span>Net fiscal input</span><strong data-primary-balance-effect>0%</strong><small>Revenue less primary spending</small></div></div>
-    </section>
-  </div>`;
-  const economySection = document.createElement("section");
-  economySection.className = "debt-fine-tuning__economy";
-  economySection.innerHTML = `<div class="debt-controls-heading debt-fine-tuning__heading">
-    <div><h3>3. Economy and financing</h3><p>Set annual rates for growth, inflation and debt servicing over the selected period. Leaving a rate blank retains the illustrative baseline path.</p></div>
-  </div>
-  <div class="debt-fine-tuning__grid"><section class="debt-assumptions__group debt-fine-tuning__panel"><div class="debt-fine-tuning__section">${rateMarkup(model, "realGrowth")}${rateMarkup(model, "inflation")}${rateMarkup(model, "interestRate")}</div></section></div>`;
-  element.append(economySection);
+  element.className = "debt-workspace debt-fine-tuning debt-ratio-section debt-scenario-accordion";
+  element.innerHTML = `<details class="debt-scenario-accordion__stage">
+    ${accordionHeading("fiscal-stage-title", "2. Fine-tune the fiscal assumptions", "Test relative changes in spending and revenue against their baseline paths.")}
+    <div class="debt-scenario-accordion__content"><section class="debt-assumptions__group debt-fine-tuning__panel"><div class="debt-fine-tuning__section">${sliderMarkup("primarySpending", "Primary spending")}${sliderMarkup("revenue", "Revenue")}<div class="debt-derived-metric"><span>Net fiscal input</span><strong data-primary-balance-effect>0%</strong><small>Revenue less primary spending</small></div></div></section></div>
+  </details>
+  <details class="debt-scenario-accordion__stage">
+    ${accordionHeading("economy-stage-title", "3. Economy and financing", "Set annual rates for growth, inflation and debt servicing over the selected period. Leaving a rate blank retains the illustrative baseline path.")}
+    <div class="debt-scenario-accordion__content"><section class="debt-assumptions__group debt-fine-tuning__panel"><div class="debt-fine-tuning__section">${rateMarkup(model, "realGrowth")}${rateMarkup(model, "inflation")}${rateMarkup(model, "interestRate")}</div></section></div>
+  </details>`;
+
+  keepOneScenarioStageOpen(element);
 
   for (const name of ["primarySpending", "revenue"]) {
     element.querySelector(`#${name}`).addEventListener("input", (event) => onChange(name, Number(event.target.value)));

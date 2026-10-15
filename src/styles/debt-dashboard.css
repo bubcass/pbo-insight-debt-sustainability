@@ -195,8 +195,27 @@ main.observablehq > .observablehq--block:has(> .debt-ratio-chart-panel) { max-wi
 .debt-at-a-glance { max-width: var(--text-max); margin: 0 auto 1.25rem; }
 .debt-workspace__controls { max-width: var(--text-max); margin: 0 auto 1.5rem; }
 .debt-workspace__controls { padding: 0; border: 0; background: transparent; }
+.debt-scenario-accordion { max-width: var(--text-max); margin: 1rem auto 0; padding: 0; border: 0; background: transparent; }
+.debt-scenario-accordion__stage { margin: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+.debt-scenario-accordion__stage + .debt-scenario-accordion__stage { margin-top: -1px; }
+.debt-scenario-accordion__summary { display: grid; grid-template-columns: minmax(0, 1fr) 1.6rem; gap: 1rem; align-items: center; padding: 1rem 1.1rem; cursor: pointer; list-style: none; }
+.debt-scenario-accordion__summary::-webkit-details-marker { display: none; }
+.debt-scenario-accordion__summary h3 { margin: 0; color: var(--text); font-size: 1.25rem; }
+.debt-scenario-accordion__summary p { max-width: 48rem; margin: 0.28rem 0 0; color: var(--text-soft); font-size: 0.96rem; line-height: 1.5; }
+.debt-scenario-accordion__summary:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.debt-scenario-accordion__summary:hover h3 { color: var(--pbo-primary); }
+.debt-scenario-accordion__icon { position: relative; display: block; width: 1.35rem; height: 1.35rem; border: 1px solid var(--pbo-structure-border); border-radius: 50%; }
+.debt-scenario-accordion__icon::before, .debt-scenario-accordion__icon::after { content: ""; position: absolute; top: 50%; left: 50%; width: 0.58rem; height: 2px; background: currentColor; transform: translate(-50%, -50%); }
+.debt-scenario-accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform 160ms ease; }
+.debt-scenario-accordion__stage[open] .debt-scenario-accordion__icon::after { transform: translate(-50%, -50%) rotate(0); }
+.debt-scenario-accordion__content { padding: 1rem 1.1rem 1.1rem; border-top: 1px solid var(--border); }
+.debt-scenario-accordion__content .debt-assumptions { margin-top: 0; }
+.debt-scenario-accordion__note { max-width: 54rem; margin-top: 1rem; color: var(--text-soft); font-size: 0.95rem; line-height: 1.55; }
+.debt-scenario-accordion__note p { margin: 0.8rem 0 0; }
+.debt-scenario-accordion__note p:first-child { margin-top: 0; }
 .debt-scenario-explainer { max-width: var(--text-max); margin: 2rem auto 1.5rem; }.debt-scenario-explainer h2 { margin: 0; font-size: 1.5rem; }.debt-scenario-explainer p { max-width: 54rem; margin: 0.35rem 0 0; color: var(--text-soft); font-size: 1rem; line-height: 1.55; }.debt-workspace__controls .debt-controls-heading { padding: 0; border-bottom: 0; }.debt-workspace__controls .debt-controls-heading h2, .debt-workspace__controls .debt-controls-heading h3 { margin: 0; font-size: 1.25rem; }.debt-workspace__controls .debt-controls-heading > div:first-child > p { margin: 0.3rem 0 0; color: var(--text-soft); font-size: 1rem; line-height: 1.55; }.debt-scenario-actions { justify-content: flex-end; margin-top: 0.75rem; }
 .debt-workspace .debt-assumptions { margin-top: 0.9rem; }
+.debt-scenario-accordion__content .debt-assumptions { margin-top: 0; }
 .debt-workspace .debt-scenario-setup { padding: 0; border: 0; background: transparent; }
 .debt-scenario-presets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 33rem); padding: 0.9rem 0 1rem; }
 .debt-scenario-presets .segmented-control__option,
@@ -249,6 +268,7 @@ main.observablehq > .observablehq--block:has(> .debt-ratio-chart-panel) { max-wi
 .debt-chart__tooltip { position: absolute; z-index: 2; min-width: 10.5rem; padding: 0.45rem 0.55rem; border: 1px solid var(--border); background: #fffdfa; box-shadow: 0 0.3rem 0.9rem rgb(48 43 35 / 14%); color: var(--text); font-size: 0.76rem; line-height: 1.4; pointer-events: none; transform: translate(-50%, -100%); }.debt-chart__tooltip[hidden] { display: none; }.debt-chart__tooltip strong { display: block; margin-bottom: 0.1rem; }
 .debt-plot__shell { position: relative; outline: none; }.debt-plot__shell:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 30%, transparent); }.debt-plot__shell svg { display: block; }.debt-plot__interaction { position: absolute; z-index: 2; cursor: crosshair; }.debt-plot__tooltip { position: absolute; z-index: 3; display: grid; gap: 0.12rem; min-width: 10.75rem; padding: 0.5rem 0.6rem; border: 1px solid var(--border); background: #fffdfa; box-shadow: 0 0.3rem 0.9rem rgb(48 43 35 / 14%); color: var(--text); font-size: 0.76rem; line-height: 1.35; pointer-events: none; }.debt-plot__tooltip strong { color: var(--accent); font-size: 0.82rem; }.debt-plot__tooltip[hidden] { display: none; }
 .debt-fine-tuning { max-width: var(--text-max); margin: 2rem auto 0; padding: 0; border: 0; background: transparent; }.debt-fine-tuning__heading { margin-bottom: 1.15rem; padding: 0; border-bottom: 0; }.debt-fine-tuning__heading h2, .debt-fine-tuning__heading h3 { margin: 0; font-size: 1.25rem; }.debt-fine-tuning__heading > div:first-child > p { max-width: 48rem; margin: 0.35rem 0 0; color: var(--text-soft); font-size: 1rem; line-height: 1.55; }.debt-fine-tuning__grid { display: block; }.debt-fine-tuning .debt-fine-tuning__panel { display: block !important; grid-template-columns: none !important; margin: 0; padding: 1.25rem; border: 1px solid var(--border); background: var(--surface); }.debt-fine-tuning .debt-fine-tuning__section { display: block; width: 100%; grid-column: 1 / -1; }.debt-fine-tuning .debt-assumptions__group h3 { margin: 0 0 0.4rem; color: var(--text); font-size: 0.95rem; }.debt-fine-tuning .debt-step-description { margin: 0 0 1.1rem; }.debt-fine-tuning__economy { margin-top: 2.5rem; }.debt-fine-tuning__actions { justify-content: flex-end; margin-top: 0.75rem; }
+.debt-fine-tuning.debt-scenario-accordion { margin-top: -1px; }
 
 /* The shared form reset fixes native range inputs at 240px; rate controls must
    instead occupy the full track available beside their precise number input. */
@@ -256,7 +276,7 @@ main.observablehq > .observablehq--block:has(> .debt-ratio-chart-panel) { max-wi
 input.debt-rate-control__range { width: 100% !important; min-width: 0; }
 .debt-rate-control__number-wrap { width: 6.75rem; max-width: 6.75rem; }
 @media (max-width: 900px) { .debt-at-a-glance .tax-insight-comparisons { grid-template-columns: repeat(2, minmax(0, 1fr)); }.debt-at-a-glance .tax-insight-comparisons__item:nth-child(3) { padding-left: 0; border-left: 0; } }
-@media (max-width: 700px) { .debt-fine-tuning__actions { justify-content: stretch; } }
+@media (max-width: 700px) { .debt-scenario-accordion { margin-top: 0.75rem; }.debt-scenario-accordion__summary { padding: 0.9rem; }.debt-scenario-accordion__summary h3 { font-size: 1.08rem; }.debt-scenario-accordion__summary p { font-size: 0.9rem; }.debt-scenario-accordion__content { padding: 0.9rem; }.debt-fine-tuning__actions { justify-content: stretch; } }
 @media (max-width: 620px) { .debt-at-a-glance .tax-insight-comparisons { grid-template-columns: 1fr; }.debt-at-a-glance .tax-insight-comparisons__item:nth-child(n) { padding: 0.8rem 0; border-top: 1px solid var(--pbo-structure-border); border-left: 0; } }
 
 /* Keep the chart's series, controls and annotation legible in night mode. */
