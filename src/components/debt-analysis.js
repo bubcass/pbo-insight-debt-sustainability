@@ -1,5 +1,6 @@
 import * as Plot from "npm:@observablehq/plot@0.6.17";
 import {projectionComparisonChart} from "./debt-chart.js";
+import {sanitizePlotAccessibility} from "./plot-accessibility.js";
 import {debtScenarioSetup, debtFineTuning, debtChartQuickControls} from "./debt-ratio-controls.js";
 import {defaultScenario, readScenario, writeScenario} from "./scenario-state.js";
 import {debtResetButton} from "./debt-reset-button.js";
@@ -126,7 +127,8 @@ function dynamicsComponent(model, onChange) {
     const width = Math.max(320, Math.floor(element.clientWidth - 32));
     renderedWidth = width;
     const stacked = rows.flatMap((row) => Object.entries(row.parts).map(([component, value]) => ({year: row.year, component, value})));
-    const plot = Plot.plot({width, height: width < 560 ? 310 : 405, marginLeft: 58, marginBottom: 46, x: {label: "Year", domain: model.years}, y: {label: "Annual change (percentage points)", grid: true}, color: {domain: Object.keys(colours), range: Object.values(colours)}, marks: [Plot.ruleY([0]), Plot.barY(stacked, Plot.stackY({x: "year", y: "value", fill: "component"})), Plot.lineY(rows, {x: "year", y: "net", stroke: "#6b1448", strokeWidth: 3}), Plot.dot(rows, {x: "year", y: "net", fill: "#6b1448", r: 3.5})]});
+    const plot = Plot.plot({width, height: width < 560 ? 310 : 405, marginLeft: 58, marginBottom: 46, x: {label: "Year", domain: model.years}, y: {label: "Annual change (percentage points)", grid: true}, color: {domain: Object.keys(colours), range: Object.values(colours)}, marks: [Plot.ruleY([0], {ariaHidden: true}), Plot.barY(stacked, Plot.stackY({x: "year", y: "value", fill: "component"})), Plot.lineY(rows, {x: "year", y: "net", stroke: "#6b1448", strokeWidth: 3}), Plot.dot(rows, {x: "year", y: "net", fill: "#6b1448", r: 3.5})]});
+    sanitizePlotAccessibility(plot);
     element.querySelector(".debt-chart__canvas").replaceChildren(plot);
   };
   const observer = new ResizeObserver(() => { const width = Math.floor(element.clientWidth - 32); if (width && Math.abs(width - renderedWidth) > 1) render(); });

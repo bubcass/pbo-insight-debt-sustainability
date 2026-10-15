@@ -254,6 +254,20 @@ main.observablehq > .observablehq--block:has(> .debt-ratio-chart-panel) { max-wi
   .debt-timing__sliders { grid-template-columns: 1fr; }
 }
 
+/* Keep the scenario builder comfortable on the smallest phone widths. */
+@media (max-width: 420px) {
+  .debt-scenario-accordion__content { min-width: 0; padding-inline: 0.75rem; }
+  .debt-workspace .debt-assumptions__group,
+  .debt-fine-tuning .debt-fine-tuning__panel { min-width: 0; padding: 0.85rem; }
+  .debt-scenario-setup .debt-choice { min-width: 0; }
+  .debt-choice .segmented-control { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .debt-choice .segmented-control__option { min-width: 0; padding-inline: 0.25rem; }
+  .debt-scenario-setup .debt-timing { min-width: 0; }
+  .debt-rate-control__inputs { grid-template-columns: minmax(0, 1fr); gap: 0.55rem; }
+  .debt-rate-control__number-wrap { justify-self: end; width: min(100%, 5.5rem); max-width: 5.5rem; }
+  .debt-chart-control--rate > div { grid-template-columns: minmax(0, 1fr) 3.45rem auto; }
+}
+
 /* Secondary analysis pages */
 .debt-analysis-introduction { margin-bottom: var(--space-5); }
 .debt-analysis-dashboard { max-width: var(--data-max); margin: 0 auto var(--space-7); }
@@ -289,3 +303,29 @@ input.debt-rate-control__range { width: 100% !important; min-width: 0; }
 :root[data-theme="dark"] .debt-chart__legend .segmented-control__option:nth-child(2):has(input:checked) { border-bottom-color: #ff9b73; }
 :root[data-theme="dark"] .debt-chart__legend .segmented-control__option:nth-child(3):has(input:checked) { border-bottom-color: #efa8d1; }
 :root[data-theme="dark"] .debt-plot__tooltip { border-color: var(--border); background: var(--surface); box-shadow: 0 0.3rem 0.9rem rgb(0 0 0 / 35%); }
+
+@media (max-width: 420px) {
+  .debt-fine-tuning .debt-fine-tuning__panel { min-width: 0; padding: 0.85rem; }
+  .debt-rate-control__inputs { grid-template-columns: minmax(0, 1fr); gap: 0.55rem; }
+  .debt-rate-control__number-wrap { justify-self: end; width: min(100%, 5.5rem); max-width: 5.5rem; }
+}
+
+/* Quick adjustments sit beneath the chart: use a deliberate single-column
+   control stack on phones rather than squeezing the desktop control matrix. */
+@media (max-width: 700px) {
+  .debt-chart__quick-controls { min-width: 0; padding-block: 0.9rem; }
+  .debt-chart__quick-controls-heading { align-items: flex-start; flex-direction: column; gap: 0.2rem; }
+  .debt-chart__quick-controls-grid { grid-template-columns: minmax(0, 1fr); gap: 0.9rem; }
+  .debt-chart-control:nth-child(n) { grid-column: auto; min-width: 0; }
+  .debt-chart-control > span { font-size: 0.78rem; }
+  .debt-chart-control small { font-size: 0.68rem; }
+  .debt-chart-control--rate > div { grid-template-columns: minmax(0, 1fr) 4.25rem auto; gap: 0.45rem; }
+  .debt-chart-control--rate input[type="number"] { width: 4.25rem; min-height: 2.1rem; font-size: 0.82rem; }
+  .debt-chart-control--rate em { font-size: 0.78rem; }
+}
+
+@media (max-width: 360px) {
+  .debt-chart { padding-inline: 0.85rem; }
+  .debt-chart-control--rate > div { grid-template-columns: minmax(0, 1fr) 3.75rem auto; }
+  .debt-chart-control--rate input[type="number"] { width: 3.75rem; }
+}

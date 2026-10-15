@@ -1,4 +1,5 @@
 import * as Plot from "npm:@observablehq/plot@0.6.17";
+import {sanitizePlotAccessibility} from "./plot-accessibility.js";
 
 // These remain close to the Insights/PBO palette, while giving each state a
 // distinct visual role: neutral published data, a warning/adverse path, and a
@@ -164,13 +165,13 @@ export function projectionComparisonChart({
       y: {label: valueLabel(state), domain: [absolute.min, absolute.max], grid: true, tickFormat: yTickFormat},
       marks: [
         ...(!isBaseline ? [Plot.areaY(changedRows, {x: "year", y1: "baseline", y2: "scenario", fill: active.fill, fillOpacity: 0.45})] : []),
-        Plot.ruleX([state.scenarioStart], {stroke: palette.change, strokeDasharray: "4,4"}),
+        Plot.ruleX([state.scenarioStart], {stroke: palette.change, strokeDasharray: "4,4", ariaHidden: true}),
         Plot.lineY(rows, {x: "year", y: "baseline", stroke: palette.baseline, strokeWidth: 2.25, strokeDasharray: "5,4"}),
         ...(!isBaseline ? [Plot.dot(rows, {x: "year", y: "baseline", stroke: palette.baseline, fill: palette.surface, strokeWidth: 1.4, r: 3.4})] : []),
         ...(isBaseline
           ? [Plot.dot(rows, {x: "year", y: "baseline", fill: palette.baseline, r: 3.2})]
           : [
-              Plot.ruleX(horizonRows, {x: "year", y1: "baseline", y2: "scenario", stroke: palette.change, strokeWidth: 2.2}),
+              Plot.ruleX(horizonRows, {x: "year", y1: "baseline", y2: "scenario", stroke: palette.change, strokeWidth: 2.2, ariaHidden: true}),
               Plot.lineY(rows, {x: "year", y: "scenario", stroke: active.colour, strokeWidth: 4}),
               Plot.dot(rows, {x: "year", y: "scenario", fill: active.colour, r: 4}),
               Plot.tip(annotationsAbove, {x: "year", y: (row) => (row.baseline + row.scenario) / 2, title: "annotation", anchor: "bottom", dy: -8, fill: palette.surface, stroke: "var(--border)", fontSize: 11, lineHeight: 1.25, pathFilter: "drop-shadow(0 2px 3px rgb(48 43 35 / 18%))"}),
@@ -178,6 +179,7 @@ export function projectionComparisonChart({
             ])
       ]
     });
+    sanitizePlotAccessibility(absolutePlot);
     absolutePlot.setAttribute("aria-label", `${valueLabel(state)} projection, comparing the published baseline with the selected scenario`);
     absolutePlot.classList.add("debt-plot__svg");
     absoluteHost.replaceChildren(absolutePlot);
